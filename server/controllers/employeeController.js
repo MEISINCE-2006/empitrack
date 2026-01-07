@@ -15,7 +15,8 @@ const getEmployees = async (req, res) => {
 
 const addEmployee = async (req, res) => {
     try {
-        const { name, email, employeeId, dob, gender, maritalStatus, designation, department, salary } = req.body;
+        const { name, email, employeeId, dob, age, gender, maritalStatus, department, salary, phone, address } = req.body;
+        const photo = req.file ? req.file.filename : null;
 
         // Create user first
         const user = new User({
@@ -31,11 +32,14 @@ const addEmployee = async (req, res) => {
             userId: user._id,
             employeeId,
             dob,
+            age,
             gender,
             maritalStatus,
-            designation,
             department,
-            salary
+            salary,
+            phone,
+            address,
+            photo
         });
         await employee.save();
 
@@ -60,17 +64,25 @@ const getEmployee = async (req, res) => {
 const updateEmployee = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, email, employeeId, dob, gender, maritalStatus, designation, department, salary } = req.body;
+        const { name, email, employeeId, dob, gender, maritalStatus, department, salary, phone, address } = req.body;
+        const photo = req.file ? req.file.filename : undefined;
 
-        const employee = await Employee.findByIdAndUpdate(id, {
+        const updateData = {
             employeeId,
             dob,
             gender,
             maritalStatus,
-            designation,
             department,
-            salary
-        }, { new: true });
+            salary,
+            phone,
+            address
+        };
+
+        if (photo !== undefined) {
+            updateData.photo = photo;
+        }
+
+        const employee = await Employee.findByIdAndUpdate(id, updateData, { new: true });
 
         if (name || email) {
             await User.findByIdAndUpdate(employee.userId, { name, email });

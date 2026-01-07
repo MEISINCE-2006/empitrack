@@ -6,9 +6,10 @@ const employeeSchema = new mongoose.Schema({
     dob: { type: Date },
     gender: { type: String },
     maritalStatus: { type: String },
-    designation: { type: String, required: true },
     department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department', required: true },
     salary: { type: Number, required: true },
+    phone: { type: String },
+    address: { type: String },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

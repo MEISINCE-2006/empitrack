@@ -6,10 +6,16 @@ const getSalaries = async (req, res) => {
             .populate('employeeId', 'employeeId salary')
             .populate({
                 path: 'employeeId',
-                populate: {
-                    path: 'userId',
-                    select: 'name'
-                }
+                populate: [
+                    {
+                        path: 'userId',
+                        select: 'name'
+                    },
+                    {
+                        path: 'department',
+                        select: 'dep_name'
+                    }
+                ]
             });
         return res.status(200).json({ success: true, salaries });
     } catch (error) {

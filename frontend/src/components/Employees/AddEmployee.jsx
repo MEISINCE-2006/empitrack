@@ -2,24 +2,44 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const AddEmployee = () => {
+const AddEmployee = ({ onEmployeeAdded, onClose, employee: initialEmployee }) => {
     const [employee, setEmployee] = useState({
         name: '',
         email: '',
         employeeId: '',
         dob: '',
+        age: '',
         gender: '',
         maritalStatus: '',
-        designation: '',
         department: '',
-        salary: ''
+        salary: '',
+        phone: '',
+        address: '',
+        photo: null
     });
     const [departments, setDepartments] = useState([]);
     const navigate = useNavigate();
+    const isEdit = !!initialEmployee;
 
     useEffect(() => {
         fetchDepartments();
-    }, []);
+        if (isEdit) {
+            setEmployee({
+                name: initialEmployee.userId.name,
+                email: initialEmployee.userId.email,
+                employeeId: initialEmployee.employeeId,
+                dob: initialEmployee.dob ? new Date(initialEmployee.dob).toISOString().split('T')[0] : '',
+                age: initialEmployee.age || '',
+                gender: initialEmployee.gender || '',
+                maritalStatus: initialEmployee.maritalStatus || '',
+                department: initialEmployee.department._id,
+                salary: initialEmployee.salary || '',
+                phone: initialEmployee.phone || '',
+                address: initialEmployee.address || '',
+                photo: null
+            });
+        }
+    }, [isEdit, initialEmployee]);
 
     const fetchDepartments = async () => {
         try {
@@ -40,7 +60,12 @@ const AddEmployee = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setEmployee({ ...employee, [name]: value });
+        if (name === 'dob') {
+            const age = value ? new Date().getFullYear() - new Date(value).getFullYear() : '';
+            setEmployee({ ...employee, [name]: value, age });
+        } else {
+            setEmployee({ ...employee, [name]: value });
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -56,7 +81,7 @@ const AddEmployee = () => {
 
             if (response.data.success) {
                 alert('Employee added successfully!');
-                navigate("/admin-dashboard/employees");
+                onEmployeeAdded();
             } else {
                 alert(response.data.error || "Failed to add employee");
             }
@@ -71,15 +96,35 @@ const AddEmployee = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-md shadow-md">
-            <h3 className="text-2xl font-bold mb-6">Add New Employee</h3>
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="w-full bg-white p-8 rounded-md shadow-md animate-slide-down">
+            <div className="flex justify-between items-center mb-4">
+                <h3 className="text-2xl font-bold">{isEdit ? 'Edit Employee' : 'Add New Employee'}</h3>
+                <button
+                    type="button"
+                    onClick={onClose}
+                    className="text-gray-500 hover:text-gray-700 text-2xl"
+                >
+                    ✕
+                </button>
+            </div>
+            <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-4">
                 <div>
                     <label htmlFor="name" className="text-sm font-medium text-gray-700">Name</label>
                     <input
                         type="text"
                         name="name"
                         value={employee.name}
+                        onChange={handleChange}
+                        className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="phone" className="text-sm font-medium text-gray-700">Phone Number</label>
+                    <input
+                        type="text"
+                        name="phone"
+                        value={employee.phone}
                         onChange={handleChange}
                         className="mt-1 w-full p-2 border border-gray-300 rounded-md"
                         required
@@ -122,6 +167,18 @@ const AddEmployee = () => {
                 </div>
 
                 <div>
+                    <label htmlFor="age" className="text-sm font-medium text-gray-700">Age</label>
+                    <input
+                        type="number"
+                        name="age"
+                        value={employee.age}
+                        onChange={handleChange}
+                        className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+                        readOnly
+                    />
+                </div>
+
+                <div>
                     <label htmlFor="gender" className="text-sm font-medium text-gray-700">Gender</label>
                     <select
                         name="gender"
@@ -152,18 +209,7 @@ const AddEmployee = () => {
                     </select>
                 </div>
 
-                <div>
-                    <label htmlFor="designation" className="text-sm font-medium text-gray-700">Designation</label>
-                    <input
-                        type="text"
-                        name="designation"
-                        value={employee.designation}
-                        onChange={handleChange}
-                        className="mt-1 w-full p-2 border border-gray-300 rounded-md"
-                        required
-                    />
-                </div>
-
+                
                 <div>
                     <label htmlFor="department" className="text-sm font-medium text-gray-700">Department</label>
                     <select
@@ -192,12 +238,75 @@ const AddEmployee = () => {
                     />
                 </div>
 
-                <div className="md:col-span-2">
+                
+
+                <div>
+                    <label htmlFor="address" className="text-sm font-medium text-gray-700">Address</label>
+                    <textarea
+                        name="address"
+                        value={employee.address}
+                        onChange={handleChange}
+                        className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+                        rows="1"
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label htmlFor="photo" className="text-sm font-medium text-gray-700">Photo</label>
+                    <input
+                        type="file"
+                        name="photo"
+                        onChange={(e) => setEmployee({ ...employee, photo: e.target.files[0] })}
+                        className="mt-0 w-full p-2 border border-gray-300 rounded-md"
+                        accept="image/*"
+                    />
+                </div>
+
+                <div className="md:col-span-3 flex justify-end space-x-4">
+                    <button
+                        type="button"
+                        onClick={() => {
+                            if (isEdit) {
+                                setEmployee({
+                                    name: initialEmployee.userId.name,
+                                    email: initialEmployee.userId.email,
+                                    employeeId: initialEmployee.employeeId,
+                                    dob: initialEmployee.dob ? new Date(initialEmployee.dob).toISOString().split('T')[0] : '',
+                                    age: initialEmployee.age || '',
+                                    gender: initialEmployee.gender || '',
+                                    maritalStatus: initialEmployee.maritalStatus || '',
+                                    department: initialEmployee.department._id,
+                                    salary: initialEmployee.salary || '',
+                                    phone: initialEmployee.phone || '',
+                                    address: initialEmployee.address || '',
+                                    photo: null
+                                });
+                            } else {
+                                setEmployee({
+                                    name: '',
+                                    email: '',
+                                    employeeId: '',
+                                    dob: '',
+                                    gender: '',
+                                    maritalStatus: '',
+                                    department: '',
+                                    salary: '',
+                                    phone: '',
+                                    address: '',
+                                    photo: null
+                                });
+                            }
+                        }}
+                        className="mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                        {isEdit ? 'Reset' : 'Clear'}
+                    </button>
                     <button
                         type="submit"
-                        className="w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
+                        className="mt-4 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
                     >
-                        Add Employee
+                        {isEdit ? 'Update' : 'Save'}
                     </button>
                 </div>
             </form>
