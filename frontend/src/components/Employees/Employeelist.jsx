@@ -15,7 +15,7 @@ const Employeelist = () => {
   const fetchEmployees = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/employee', {
+      const response = await axios.get('/api/employee', {
         headers: {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
@@ -85,7 +85,7 @@ const Employeelist = () => {
             <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Employee ID: {employee.employeeId}</p>
             {employee.photo && (
               <img
-                src={`http://localhost:5000/uploads/${employee.photo}`}
+                src={`/uploads/${employee.photo}`}
                 alt={`${employee.userId.name}'s photo`}
                 className="w-20 h-20 object-cover rounded-full mt-2 mx-auto"
               />
