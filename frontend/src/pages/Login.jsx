@@ -43,7 +43,12 @@ const Login = () => {
       }
     } catch (error) {
       if (error.response && error.response.data.error) {
-        setError(error.response.data.error);
+        const errData = error.response.data.error;
+        if (typeof errData === 'object') {
+          setError(errData.message || JSON.stringify(errData));
+        } else {
+          setError(errData);
+        }
       } else {
         setError("Server error, try again later");
       }

@@ -21,6 +21,14 @@ app.use('/api/employee', employeeRouter)
 app.use('/api/leave', leaveRouter)
 app.use('/api/salary', salaryRouter)
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server is running on port ${process.env.PORT}`)
-})
+const PORT = process.env.PORT || 5000;
+
+// Only start the server if we're not in a Vercel environment (or if running directly)
+// Vercel expects the app to be exported
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`)
+    })
+}
+
+export default app;
