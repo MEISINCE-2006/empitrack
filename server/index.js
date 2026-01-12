@@ -20,7 +20,24 @@ app.use(cors({
 }))
 app.use(express.json())
 
-app.get('/api/test', (req, res) => {
+const routes = (app) => {
+    app.use('/api/auth', authRouter)
+    app.use('/api/department', departmentRouter)
+    app.use('/api/employee', employeeRouter)
+    app.use('/api/leave', leaveRouter)
+    app.use('/api/salary', salaryRouter)
+
+    // Also mount without /api prefix in case Vercel rewrites strip it
+    app.use('/auth', authRouter)
+    app.use('/department', departmentRouter)
+    app.use('/employee', employeeRouter)
+    app.use('/leave', leaveRouter)
+    app.use('/salary', salaryRouter)
+}
+
+routes(app);
+
+app.get(['/api/test', '/test'], (req, res) => {
     res.json({
         message: "Server is running correctly!",
         originalUrl: req.originalUrl,
@@ -29,12 +46,6 @@ app.get('/api/test', (req, res) => {
         path: req.path
     });
 });
-
-app.use('/api/auth', authRouter)
-app.use('/api/department', departmentRouter)
-app.use('/api/employee', employeeRouter)
-app.use('/api/leave', leaveRouter)
-app.use('/api/salary', salaryRouter)
 
 const PORT = process.env.PORT || 5000;
 
