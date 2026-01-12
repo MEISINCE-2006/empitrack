@@ -13,8 +13,23 @@ dotenv.config()
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+    origin: ["http://localhost:5173", "https://empitrack.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}))
 app.use(express.json())
+
+app.get('/api/test', (req, res) => {
+    res.json({
+        message: "Server is running correctly!",
+        originalUrl: req.originalUrl,
+        url: req.url,
+        baseUrl: req.baseUrl,
+        path: req.path
+    });
+});
+
 app.use('/api/auth', authRouter)
 app.use('/api/department', departmentRouter)
 app.use('/api/employee', employeeRouter)
