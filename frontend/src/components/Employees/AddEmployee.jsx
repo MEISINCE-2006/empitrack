@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../../context/themeContext';
 
 const AddEmployee = ({ onEmployeeAdded, onClose, employee: initialEmployee }) => {
+    const { theme } = useTheme();
     const [employee, setEmployee] = useState({
         name: '',
         email: '',
@@ -95,14 +97,17 @@ const AddEmployee = ({ onEmployeeAdded, onClose, employee: initialEmployee }) =>
         }
     };
 
+    const inputClass = `mt-1 w-full p-3 border rounded-lg transition-all duration-200 ${theme === 'dark' ? 'bg-gray-700/50 text-white border-purple-500/30 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/50' : 'bg-white border-gray-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/50'} focus:outline-none`;
+    const labelClass = `text-sm font-medium ${theme === 'dark' ? 'text-cyan-300' : 'text-gray-700'}`;
+
     return (
-        <div className="w-full bg-white p-8 rounded-md shadow-md animate-slide-down">
-            <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold">{isEdit ? 'Edit Employee' : 'Add New Employee'}</h3>
+        <div className={`w-full ${theme === 'dark' ? 'bg-gradient-to-br from-gray-800/90 to-purple-900/40 backdrop-blur-xl border border-purple-500/30' : 'bg-white'} p-8 rounded-xl shadow-2xl animate-slide-down`}>
+            <div className="flex justify-between items-center mb-6">
+                <h3 className={`text-2xl font-bold ${theme === 'dark' ? 'bg-gradient-to-r from-cyan-400 to-purple-400 text-transparent bg-clip-text' : 'text-gray-800'}`}>{isEdit ? 'Edit Employee' : 'Add New Employee'}</h3>
                 <button
                     type="button"
                     onClick={onClose}
-                    className="text-gray-500 hover:text-gray-700 text-2xl"
+                    className={`${theme === 'dark' ? 'text-gray-400 hover:text-white hover:bg-red-500/20' : 'text-gray-500 hover:text-gray-700'} text-2xl p-2 rounded-lg transition-all duration-200`}
                 >
                     ✕
                 </button>
@@ -209,7 +214,7 @@ const AddEmployee = ({ onEmployeeAdded, onClose, employee: initialEmployee }) =>
                     </select>
                 </div>
 
-                
+
                 <div>
                     <label htmlFor="department" className="text-sm font-medium text-gray-700">Department</label>
                     <select
@@ -238,7 +243,7 @@ const AddEmployee = ({ onEmployeeAdded, onClose, employee: initialEmployee }) =>
                     />
                 </div>
 
-                
+
 
                 <div>
                     <label htmlFor="address" className="text-sm font-medium text-gray-700">Address</label>

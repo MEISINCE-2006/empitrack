@@ -11,14 +11,15 @@ const AdminDashboard = () => {
 
   return (
 
-      <div className="flex">
-        <Adminsidebar/>
-        <div className={`flex-1 ml-64 h-screen ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-100'}`}>
-          <Navbar />
-          <Outlet/>
-
+    <div className="flex">
+      <Adminsidebar />
+      <div className={`flex-1 ml-64 min-h-screen ${theme === 'dark' ? 'bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900' : 'bg-gray-100'}`}>
+        <Navbar />
+        <div className="pt-16">
+          <Outlet />
         </div>
       </div>
+    </div>
 
   );
 };

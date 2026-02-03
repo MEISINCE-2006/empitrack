@@ -79,41 +79,41 @@ const Employeelist = () => {
       )}
       {!showAddForm && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {employees.map(employee => (
-          <div key={employee._id} className={`${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white'} p-4 rounded shadow hover:shadow-lg transition-shadow duration-300 transform hover:scale-105 text-center`}>
-            <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>{employee.userId.name}</h3>
-            <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>Employee ID: {employee.employeeId}</p>
-            {employee.photo && (
-              <img
-                src={`/uploads/${employee.photo}`}
-                alt={`${employee.userId.name}'s photo`}
-                className="w-20 h-20 object-cover rounded-full mt-2 mx-auto"
-              />
-            )}
-            <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} mt-2`}>{employee.department.dep_name}</p>
-            <div className="mt-2 flex justify-center space-x-2">
-              <button
-                onClick={() => handleEdit(employee)}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm transition-colors duration-200"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleViewDetails(employee)}
-                className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-sm transition-colors duration-200"
-              >
-                Details
-              </button>
-              <button
-                onClick={() => handleDelete(employee._id)}
-                className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm transition-colors duration-200"
-              >
-                Delete
-              </button>
+          {employees.map(employee => (
+            <div key={employee._id} className={`${theme === 'dark' ? 'bg-gradient-to-br from-gray-800/50 to-purple-900/30 backdrop-blur-xl border border-purple-500/20 hover:border-cyan-400/40' : 'bg-white'} p-4 rounded-lg shadow hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-center`}>
+              <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'bg-gradient-to-r from-cyan-400 to-purple-400 text-transparent bg-clip-text' : 'text-gray-800'}`}>{employee.userId.name}</h3>
+              <p className={`${theme === 'dark' ? 'text-purple-300' : 'text-gray-600'}`}>Employee ID: {employee.employeeId}</p>
+              {employee.photo && (
+                <img
+                  src={`/uploads/${employee.photo}`}
+                  alt={`${employee.userId.name}'s photo`}
+                  className="w-20 h-20 object-cover rounded-full mt-2 mx-auto border-2 border-purple-400"
+                />
+              )}
+              <p className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} mt-2`}>{employee.department.dep_name}</p>
+              <div className="mt-2 flex justify-center space-x-2">
+                <button
+                  onClick={() => handleEdit(employee)}
+                  className={`${theme === 'dark' ? 'bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600' : 'bg-blue-600 hover:bg-blue-700'} text-white font-bold py-1 px-2 rounded text-sm transition-all duration-200 transform hover:scale-110 shadow-lg`}
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleViewDetails(employee)}
+                  className={`${theme === 'dark' ? 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600' : 'bg-green-600 hover:bg-green-700'} text-white font-bold py-1 px-2 rounded text-sm transition-all duration-200 transform hover:scale-110 shadow-lg`}
+                >
+                  Details
+                </button>
+                <button
+                  onClick={() => handleDelete(employee._id)}
+                  className={`${theme === 'dark' ? 'bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600' : 'bg-red-600 hover:bg-red-700'} text-white font-bold py-1 px-2 rounded text-sm transition-all duration-200 transform hover:scale-110 shadow-lg`}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
       )}
 
       {editingEmployee && (
