@@ -40,15 +40,15 @@ const Adminsummary = () => {
       };
 
       // Fetch employees
-      const employeesRes = await axios.get('http://localhost:5000/api/employee', { headers });
+      const employeesRes = await axios.get('/api/employee', { headers });
       const employees = employeesRes.data.success ? employeesRes.data.employees : [];
 
       // Fetch departments
-      const departmentsRes = await axios.get('http://localhost:5000/api/department', { headers });
+      const departmentsRes = await axios.get('/api/department', { headers });
       const departments = departmentsRes.data.success ? departmentsRes.data.departments : [];
 
       // Fetch leaves
-      const leavesRes = await axios.get('http://localhost:5000/api/leave', { headers });
+      const leavesRes = await axios.get('/api/leave', { headers });
       const leaves = leavesRes.data.success ? leavesRes.data.leaves : [];
 
       // Calculate stats

@@ -46,7 +46,7 @@ const AddEmployee = ({ onEmployeeAdded, onClose, employee: initialEmployee }) =>
     const fetchDepartments = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:5000/api/department', {
+            const response = await axios.get('/api/department', {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
@@ -74,7 +74,7 @@ const AddEmployee = ({ onEmployeeAdded, onClose, employee: initialEmployee }) =>
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:5000/api/employee/add', employee, {
+            const response = await axios.post('/api/employee/add', employee, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"

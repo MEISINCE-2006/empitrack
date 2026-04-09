@@ -15,7 +15,7 @@ const Departmentlist = () => {
         if (!window.confirm("Are you sure you want to delete this department?")) return;
 
         try {
-            const response = await axios.delete(`http://localhost:5000/api/department/${id}`, {
+            const response = await axios.delete(`/api/department/${id}`, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`
                 }
@@ -34,7 +34,7 @@ const Departmentlist = () => {
     const fetchDepartments = async () => {
         setDepLoading(true)
         try {
-            const response = await axios.get('http://localhost:5000/api/department', {
+            const response = await axios.get('/api/department', {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`
                 }

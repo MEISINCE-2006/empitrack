@@ -38,7 +38,7 @@ const Employeelist = () => {
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/employee/${id}`, {
+      await axios.delete(`/api/employee/${id}`, {
         headers: {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
@@ -146,7 +146,7 @@ const Employeelist = () => {
             <div className="text-center">
               {viewingEmployee.photo && (
                 <img
-                  src={`http://localhost:5000/uploads/${viewingEmployee.photo}`}
+                  src={`/uploads/${viewingEmployee.photo}`}
                   alt={`${viewingEmployee.userId.name}'s photo`}
                   className="w-24 h-24 object-cover rounded-full mx-auto mb-4"
                 />

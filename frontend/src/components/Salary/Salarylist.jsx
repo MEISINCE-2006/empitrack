@@ -12,7 +12,7 @@ const Salarylist = () => {
     const fetchSalaries = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/salary', {
+        const response = await axios.get('/api/salary', {
           headers: {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json"
